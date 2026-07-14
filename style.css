@@ -138,7 +138,7 @@ body {
   min-width: 200px;
   background: var(--bg-panel);
   border-right: 1px solid var(--border);
-  display: flex;
+  display: sticky;
   flex-direction: column;
   overflow-y: auto;
   flex-shrink: 0;
