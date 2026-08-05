@@ -1,8 +1,5 @@
 # Exercícios de Docker — Do Básico ao Intermediário
 
-# AVISO: nao respondi as questoes na ordem, respondi na ordem que eu achei mais interessante, seja por ter chamado minha atencao ou outra coisa...
- 
-
 ## Instruções de Entrega
 
 Para cada exercício, documente os comandos executados e arquivos criados em um arquivo chamado `respostas-docker.md`. Veja o modelo de exemplo no final deste documento.
