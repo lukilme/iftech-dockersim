@@ -15,46 +15,53 @@ export function toggleTheme() {
 }
 
 export function switchView(view) {
-  const panels = ['terminal-panel', 'editors-area', 'challenges-area', 'help-panel', 'dashboard'];
-  panels.forEach(id => {
+  const allViews = ['terminal-view', 'editors-view', 'dashboard-view'];
+  allViews.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.style.display = 'none';
+    el.classList.add('hidden');
   });
 
   if (view === 'terminal') {
-    const t = document.getElementById('terminal-panel');
-    const d = document.getElementById('dashboard');
-    if (t) t.style.display = 'block';
-    if (d) d.style.display = 'block';
+    const t = document.getElementById('terminal-view');
+    if (t) t.classList.remove('hidden');
   } else if (view === 'editors') {
-    const e = document.getElementById('editors-area');
-    if (e) e.style.display = 'block';
-  } else if (view === 'challenges') {
-    const c = document.getElementById('challenges-area');
-    if (c) c.style.display = 'block';
+    const e = document.getElementById('editors-view');
+    if (e) e.classList.remove('hidden');
+  } else if (view === 'dashboard') {
+    const d = document.getElementById('dashboard-view');
+    if (d) d.classList.remove('hidden');
   } else if (view === 'help') {
-    const h = document.getElementById('help-panel');
-    if (h) h.style.display = 'block';
+    const h = document.getElementById('help-sidebar');
+    if (h) h.classList.remove('hidden');
   }
 
-  document.querySelectorAll('.header-tab').forEach(btn => {
-    const id = btn.id || '';
-    btn.classList.toggle('active', id === `tab-${view}`);
+  // Toggle header tabs (ids starting with tab-)
+  document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+    btn.classList.toggle('active', btn.id === `tab-${view}`);
   });
 }
 
 export function switchEditorTab(tab) {
-  document.querySelectorAll('.editor-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${tab}`));
-  document.querySelectorAll('.editor-tab').forEach(btn => {
-    const text = (btn.textContent || '').toLowerCase();
-    btn.classList.toggle('active', (tab === 'dockerfile' && text.includes('dockerfile')) || (tab === 'compose' && text.includes('compose')));
+  // Show/hide editor panes by id (pane-dockerfile, pane-compose)
+  document.querySelectorAll('[id^="pane-"]').forEach(p => {
+    p.classList.toggle('hidden', p.id !== `pane-${tab}`);
+  });
+
+  // Toggle editor tab active state (ids like editor-tab-dockerfile)
+  document.querySelectorAll('[id^="editor-tab-"]').forEach(btn => {
+    btn.classList.toggle('active', btn.id === `editor-tab-${tab}`);
   });
 }
 
 export function closeModal() {
   const overlay = document.getElementById('modal-overlay');
-  if (overlay) overlay.style.display = 'none';
+  if (overlay) overlay.classList.add('hidden');
+}
+
+export function closeHelpPanel() {
+  const h = document.getElementById('help-sidebar');
+  if (h) h.classList.add('hidden');
 }
 
 export default {
@@ -63,4 +70,5 @@ export default {
   switchView,
   switchEditorTab,
   closeModal,
+  closeHelpPanel,
 };

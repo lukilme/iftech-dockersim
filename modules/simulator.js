@@ -1,4 +1,4 @@
-import { notify, toggleTheme as uiToggleTheme, switchView as uiSwitchView, switchEditorTab as uiSwitchEditorTab, closeModal as uiCloseModal } from './ui.js';
+import { notify, toggleTheme as uiToggleTheme, switchView as uiSwitchView, switchEditorTab as uiSwitchEditorTab, closeModal as uiCloseModal, closeHelpPanel as uiCloseHelpPanel } from './ui.js';
 import { clearTerminal as clearTerminalView } from './terminal.js';
 import { buildDockerfile as buildImageFromDockerfile, composeUp as composeUpAction, composeDown as composeDownAction } from './docker.js';
 import { saveState as persistState, loadState as restoreState, resetAll as resetAppState } from './storage.js';
@@ -155,8 +155,10 @@ export class DockerSimulator {
   exposeGlobalHandlers() {
     window.toggleTheme = () => uiToggleTheme();
     window.switchView = (view) => uiSwitchView(view);
+    window.switchPanel = (view) => uiSwitchView(view);
     window.switchEditorTab = (tab) => uiSwitchEditorTab(tab);
     window.closeModal = () => uiCloseModal();
+    window.closeHelpPanel = () => uiCloseHelpPanel();
     window.clearTerminal = () => clearTerminalView();
     window.buildDockerfile = () => buildImageFromDockerfile();
     window.composeUp = () => composeUpAction();
@@ -205,7 +207,7 @@ export class DockerSimulator {
       }
     });
 
-    document.getElementById('terminal-panel')?.addEventListener('click', () => this.termInput?.focus());
+    document.getElementById('terminal-view')?.addEventListener('click', () => this.termInput?.focus());
   }
 
   createChallenges() {
@@ -1430,7 +1432,7 @@ export class DockerSimulator {
 
   initSplitter() {
     const splitter = document.getElementById('splitter');
-    const terminalPanel = document.getElementById('terminal-panel');
+    const terminalPanel = document.getElementById('terminal-view');
     if (!splitter || !terminalPanel) return;
 
     let dragging = false;
