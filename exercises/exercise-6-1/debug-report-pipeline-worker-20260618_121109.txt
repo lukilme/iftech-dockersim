@@ -1,0 +1,27 @@
+DEBUG REPORT: pipeline-worker
+Gerado em: Thu Jun 18 12:11:09 PM -03 2026
+
+STATUS
+/pipeline-worker | Status: running | PID: 28186 | OOMKilled: false | Restarts: 0
+
+IP E REDES
+Rede: bridge | IP: 172.17.0.2
+
+VARIÁVEIS DE AMBIENTE (mascaradas)
+PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+LANG=C.UTF-8
+GPG_KEY=***MASKED***
+PYTHON_VERSION=3.12.13
+PYTHON_SHA256=c08bc65a81971c1dd5783182826503369466c7e67374d1646519adf05207b684
+DB_PASSWORD=***MASKED***
+APP_ENV=production
+
+
+USO DE RECURSOS (snapshot)
+CPU: 0.00% | Mem: 9.094MiB / 15.34GiB (0.06%) | Net I/O: 13.7kB / 126B | Block I/O: 5.13MB / 28.7kB
+
+ÚLTIMAS 100 LINHAS DE LOG
+
+PROCESSOS INTERNOS
+OCI runtime exec failed: exec failed: unable to start container process: exec: "ps": executable file not found in $PATH
+(ps não disponível)

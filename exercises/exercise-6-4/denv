@@ -1,0 +1,19 @@
+#!/bin/bash
+IMAGE="lukilme/dataops-toolkit-dev:latest"
+PROJECT_DIR="${DATAOPS_PROJECT:-$(pwd)}"
+
+# Carrega arquivo .env se existir para evitar erro do docker
+ENV_FLAG=""
+if [ -f .env ]; then
+    ENV_FLAG="--env-file .env"
+fi
+
+docker run --rm -it \
+  --name "dataops-dev-$(basename "$PROJECT_DIR")" \
+  -v "$PROJECT_DIR":/workspace \
+  -v "$HOME/.dbt":/home/devops/.dbt \
+  -v "$HOME/.ssh":/home/devops/.ssh:ro \
+  -p 8080:8080 \
+  $ENV_FLAG \
+  "$IMAGE" \
+  "${@:-bash}"

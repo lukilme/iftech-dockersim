@@ -1,0 +1,1 @@
+print("Aplicação executando com usuário não-root")

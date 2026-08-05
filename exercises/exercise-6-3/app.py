@@ -1,0 +1,1 @@
+print("Imagem publicada com sucesso no Docker Hub")

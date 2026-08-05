@@ -1,0 +1,51 @@
+FROM python:3.12-slim
+LABEL description="Ambiente de desenvolvimento DataOps padronizado de pipeline"
+
+# Ferramentas de sistema essenciais + dependências de compilação (build-essential e libpq-dev) e sudo
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    sudo \
+    git \
+    curl \
+    vim \
+    less \
+    jq \
+    postgresql-client \
+    make \
+    && rm -rf /var/lib/apt/lists/*
+
+# Node.js para ferramentas JS
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Atualiza o pip e instala as ferramentas Python de DataOps
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+    dbt-core==1.8.0 \
+    dbt-postgres==1.8.0 \
+    pandas==2.2.0 \
+    great-expectations==0.18.0 \
+    sqlfluff==3.0.0 \
+    pyarrow==15.0.0 \
+    ipython \
+    pgcli \
+    httpie
+
+# Criar usuário de desenvolvimento (mapeia para UID do host)
+ARG USER_UID=1000
+ARG USER_GID=1000
+RUN groupadd -g $USER_GID devops \
+    && useradd -u $USER_UID -g $USER_GID -m -s /bin/bash devops \
+    && echo "devops ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Configurações de shell úteis
+RUN echo 'alias ll="ls -la"' >> /home/devops/.bashrc \
+    && echo 'alias dbt-run="dbt run --select"' >> /home/devops/.bashrc \
+    && echo 'export PS1="\[\033[1;34m\][dataops-dev]\[\033[0m\] \w$ "' >> /home/devops/.bashrc
+
+USER devops
+WORKDIR /workspace
+
+CMD ["bash"]
